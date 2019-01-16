@@ -22,26 +22,16 @@ Pod::Spec.new do |s|
  
   s.license      = { :type => "MIT", :file => "LICENSE" }
   s.author             = { "闫明" => "yanming_m@sina.com" }
-  s.platform     = :ios
+  s.platform     = :ios, "8.0"
   s.source       = { :git => "https://github.com/TintGit/MediaComposition.git", :branch => 'master' }
-
-
-  # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
-  #
-  #  CocoaPods is smart about how it includes source code. For source files
-  #  giving a folder will include any swift, h, m, mm, c & cpp files.
-  #  For header files it will include any header in the folder.
-  #  Not including the public_header_files will make all headers public.
-  #
 
   s.source_files  = 'MediaComposition/Source/*.swift'
   s.swift_version = "4.2"
+  s.frameworks = 'AVFoundation'
   # s.public_header_files = "Classes/**/*.h"
 
-
-
   # s.resource  = "icon.png"
-  #s.resources = "black.mp4"
+  s.resources = "MediaComposition/Resource/black.mp4"
   s.static_framework = true
   
 
