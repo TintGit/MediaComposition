@@ -15,25 +15,41 @@ class ViewController: UIViewController {
         return temp
     }()
     var path: String?
+    var images: [UIImage?] = []
+    lazy var composition: MediaComposition = {
+        let temp = MediaComposition()
+        return temp
+    }()
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-    }
-    
-    @IBAction func compositionAction(_ sender: UIButton) {
         let image1 = UIImage(named: "cheese@2x")
         let image2 = UIImage(named: "kxk@2x")
-        let image3 = UIImage(named: "talk_newGuide@2x")
-        let images: [UIImage?] = [image1, image2, image3, image2, image3, image1]
-        let compos = MediaComposition()
-        compos.video(with: images, progress: { (progress) in
+        let image3 = UIImage(named: "guide@2x")
+        let image4 = UIImage(named: "kxkX@2x")
+        self.images = [image1, image2, image4,image3, image2, image3, image1]
+    }
+    
+    @IBAction func compositionAnimationAction(_ sender: UIButton) {
+        composition.videoAnimation(with: images, progress: { (progress) in
             print("合成进度",progress)
         }, success: {[weak self] (path) in
             guard let `self` = self else {return}
-            self.path = path
             print("合成后地址",path)
+            self.path = path
         }) { (errMessage) in
-            print("合成失败",errMessage)
+            print("合成失败",errMessage ?? "")
+        }
+    }
+    @IBAction func compositionAction(_ sender: UIButton) {
+        composition.video(with: images, progress: { (progress) in
+            //print("合成进度",progress)
+        }, success: {[weak self] (path) in
+            guard let `self` = self else {return}
+            print("合成后地址",path)
+            self.path = path
+            
+        }) { (errMessage) in
+            print("合成失败",errMessage ?? "")
         }
     }
     @IBAction func playAction(_ sender: UIButton) {
