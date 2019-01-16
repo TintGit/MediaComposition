@@ -111,8 +111,8 @@
 		317D1BC421EECE2200F6AF3D /* MediaComposition */ = {
 			isa = PBXGroup;
 			children = (
+				317D1C0521EF1C3300F6AF3D /* Source */,
 				317D1BF421EECE6C00F6AF3D /* Resource */,
-				317D1BF321EECE3800F6AF3D /* Core */,
 				317D1BC521EECE2200F6AF3D /* AppDelegate.swift */,
 				317D1BC721EECE2200F6AF3D /* ViewController.swift */,
 				317D1BF921EEE15400F6AF3D /* cheese@2x.png */,
@@ -145,21 +145,21 @@
 			path = MediaCompositionUITests;
 			sourceTree = "<group>";
 		};
-		317D1BF321EECE3800F6AF3D /* Core */ = {
-			isa = PBXGroup;
-			children = (
-				317D1BF521EECEE900F6AF3D /* MediaComposition.swift */,
-				317D1C0121EF09D100F6AF3D /* MCConfig.swift */,
-			);
-			path = Core;
-			sourceTree = "<group>";
-		};
 		317D1BF421EECE6C00F6AF3D /* Resource */ = {
 			isa = PBXGroup;
 			children = (
 				317D1BF721EED08200F6AF3D /* black.mp4 */,
 			);
 			path = Resource;
+			sourceTree = "<group>";
+		};
+		317D1C0521EF1C3300F6AF3D /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				317D1BF521EECEE900F6AF3D /* MediaComposition.swift */,
+				317D1C0121EF09D100F6AF3D /* MCConfig.swift */,
+			);
+			path = Source;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

@@ -11,8 +11,11 @@ Pod::Spec.new do |s|
 
 
   s.name         = "MediaComposition"
-  s.version      = "0.0.1"
-  s.summary      = "A short description of MediaComposition."
+  s.version      = "1.0.0"
+  s.summary      = "图片合成视频特效 音视频合成"
+  s.description  = <<-DESC 
+                    MediaComposition 音视频合成
+                   DESC
   
 
   s.homepage     = "https://github.com/TintGit/MediaComposition"
@@ -31,15 +34,15 @@ Pod::Spec.new do |s|
   #  Not including the public_header_files will make all headers public.
   #
 
-  s.source_files  = "MediaComposition/Core/*.swift"
+  s.source_files  = 'MediaComposition/Source/*.swift'
   s.swift_version = "4.2"
   # s.public_header_files = "Classes/**/*.h"
 
 
 
   # s.resource  = "icon.png"
-  s.resources = "MediaComposition/Resource/*.mp4"
-
+  #s.resources = "black.mp4"
+  s.static_framework = true
   
 
  s.requires_arc = true
