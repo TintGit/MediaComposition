@@ -13,8 +13,9 @@ pod 'MediaComposition'
 ```
 # 目录
 * 实现原理
-* 基本用法
 * 配置
+* 基本用法
+
 
 ## 实现原理
 ### 图片合成方案一
@@ -25,6 +26,12 @@ pod 'MediaComposition'
 基于AVFoundation Core Animation 
 将图片添加到layer上 通过AVMutableComposition合成视频 
 可以Core Animation 添加动画
+
+## 配置
+* 视频分辨率 naturalSize
+* 每张图片展示的时间 picTime
+* frameNumber 帧率
+* 动画效果 可修改图片 CALayerContentsGravity
 
 ## 基本用法
 ``` swift
@@ -49,11 +56,7 @@ composition.video(with: images, progress: { (progress) in
 }
 ```
 
-## 配置
-* 视频分辨率 naturalSize
-* 每张图片展示的时间 picTime
-* frameNumber 帧率
-* 动画效果 可修改图片 CALayerContentsGravity
+
 
 
 
