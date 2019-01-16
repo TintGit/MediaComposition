@@ -32,6 +32,7 @@ pod 'MediaComposition'
 * 每张图片展示的时间 picTime
 * frameNumber 帧率
 * 动画效果 可修改图片 CALayerContentsGravity
+* 方案一 需要自适配图片 否则 图片会被压缩 默认提供了一种方案(scaleAspectFit)
 
 ## 基本用法
 ``` swift
