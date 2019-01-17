@@ -153,7 +153,7 @@ extension MediaComposition {
             
             let musicDuration = musicAsset.mc_mediaDuration()
             let totolDuration = Int(CMTimeGetSeconds(endTime.duration))
-            print("总时间",totolDuration)
+            
             if musicDuration >= totolDuration {
                 try? musicCompositionTrack?.insertTimeRange(endTime, of: musicAssetTrack, at: .zero)
             }else {
