@@ -26,7 +26,36 @@ public enum MediaDurationType {
 }
 // MARK: - 音视频合成
 extension MediaComposition {
-    public func video(audioPath: String?, videoPath: String?, durationType: MediaDurationType, progress: ProgressBlock?, success: SuccessBlock?, failure: FailureBlock?){
+    
+    /// 音视频合成
+    ///
+    /// - Parameters:
+    ///   - audioPath: 音频地址
+    ///   - videoPath: 视频地址
+    ///   - durationType: 合成时间
+    ///   - progress: 合成进度
+    ///   - success: 成功
+    ///   - failure: 失败
+    public func avVideo(audioPath: String?, videoPath: String?, durationType: MediaDurationType, progress: ProgressBlock?, success: SuccessBlock?, failure: FailureBlock?){
+        self.bgMusicVideo(audioPath: audioPath, videoPath: videoPath, durationType: durationType, audioVolume: 1, musicPath: nil, musicVolume: 1, progress: progress, success: success, failure: failure)
+    }
+}
+
+extension MediaComposition {
+    
+    /// 音视频合成 - 添加背景音乐
+    ///
+    /// - Parameters:
+    ///   - audioPath: 音频地址
+    ///   - videoPath: 视频地址
+    ///   - durationType: 合成时间
+    ///   - audioVolume: 音频音量
+    ///   - musicPath: 背景音乐
+    ///   - musicVolume: 背景音乐音量
+    ///   - progress: 进度
+    ///   - success: 成功
+    ///   - failure: 失败
+    public func bgMusicVideo(audioPath: String?, videoPath: String?, durationType: MediaDurationType, audioVolume: Float, musicPath: String?, musicVolume: Float?, progress: ProgressBlock?, success: SuccessBlock?, failure: FailureBlock?){
         guard let audioPath = audioPath, let videoPath = videoPath else {
             failure?(nil)
             return
@@ -105,7 +134,49 @@ extension MediaComposition {
                 try? audioCompositionTrack?.insertTimeRange(CMTimeRange(start: .zero, duration: dura), of: audioAssetTrack, at: duration)
             }
         }
-        setupAssetExport(composition, videoCom: nil)
+        //音量设置
+        let audioMix: AVMutableAudioMix = AVMutableAudioMix()
+        var audioMixParam: [AVMutableAudioMixInputParameters] = []
+        let audioParam: AVMutableAudioMixInputParameters = AVMutableAudioMixInputParameters(track: audioAssetTrack)
+        audioParam.trackID = audioCompositionTrack?.trackID ?? kCMPersistentTrackID_Invalid
+        audioParam.setVolume(audioVolume, at: .zero)
+        audioMixParam.append(audioParam)
+        audioMix.inputParameters = audioMixParam
+        //合成配乐
+        if let musicP = musicPath{
+            let musicURL = URL(fileURLWithPath: musicP)
+            let musicAsset = AVURLAsset(url: musicURL)
+            guard let musicAssetTrack = musicAsset.tracks(withMediaType: .audio).first else {
+                return
+            }
+            let musicCompositionTrack = composition.addMutableTrack(withMediaType: .audio, preferredTrackID: kCMPersistentTrackID_Invalid)
+            
+            let musicDuration = musicAsset.mc_mediaDuration()
+            let totolDuration = Int(CMTimeGetSeconds(endTime.duration))
+            print("总时间",totolDuration)
+            if musicDuration >= totolDuration {
+                try? musicCompositionTrack?.insertTimeRange(endTime, of: musicAssetTrack, at: .zero)
+            }else {
+                
+                let loopCount = totolDuration / musicDuration
+                let residue = totolDuration - (musicDuration * loopCount)
+                var musicDuration = CMTime.zero
+                print("循环配乐频\(loopCount)次 + \(residue)秒")
+                for _ in 0..<loopCount {
+                    try? musicCompositionTrack?.insertTimeRange(CMTimeRange(start: .zero, duration: musicAsset.duration), of: musicAssetTrack, at: musicDuration)
+                    musicDuration = CMTimeAdd(musicDuration, musicAsset.duration)
+                }
+                
+                if residue > 0 {
+                    let dura = CMTime(value: CMTimeValue(residue), timescale: 1)
+                    try? musicCompositionTrack?.insertTimeRange(CMTimeRange(start: .zero, duration: dura), of: musicAssetTrack, at: musicDuration)
+                }
+            }
+            let musicParam: AVMutableAudioMixInputParameters = AVMutableAudioMixInputParameters(track: musicAssetTrack)
+            musicParam.trackID = musicCompositionTrack?.trackID ?? kCMPersistentTrackID_Invalid
+            musicParam.setVolume(musicVolume ?? 1, at: CMTime.zero)
+            audioMixParam.append(musicParam)
+        }
+        setupAssetExport(composition, videoCom: nil, audioMix: audioMix)
     }
-    
 }

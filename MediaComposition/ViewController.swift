@@ -26,7 +26,7 @@ class ViewController: UIViewController {
     }
     
     @IBAction func compositionAnimationAction(_ sender: UIButton) {
-        composition.videoAnimation(with: images, progress: { (progress) in
+        composition.imagesVideoAnimation(with: images, progress: { (progress) in
             print("合成进度",progress)
         }, success: {[weak self] (path) in
             guard let `self` = self else {return}
@@ -37,7 +37,7 @@ class ViewController: UIViewController {
         }
     }
     @IBAction func compositionAction(_ sender: UIButton) {
-        composition.video(with: images, progress: { (progress) in
+        composition.imagesVideo(with: images, progress: { (progress) in
             //print("合成进度",progress)
         }, success: {[weak self] (path) in
             guard let `self` = self else {return}
@@ -50,10 +50,11 @@ class ViewController: UIViewController {
     }
     @IBAction func avAction(_ sender: UIButton) {
         let audioPath = Bundle.main.path(forResource: "直到世界尽头", ofType: "mp3")
-        let videoPath = NSTemporaryDirectory() + "imagesComposition.mp4"
-        //let videoPath = Bundle.main.path(forResource: "black", ofType: "mp4")
+        //let videoPath = NSTemporaryDirectory() + "imagesComposition.mp4"
+        let videoPath = Bundle.main.path(forResource: "麦迪时刻", ofType: "MP4")
         //let type = MediaDurationType.custom(duration: 15)
-        composition.video(audioPath: audioPath, videoPath: videoPath, durationType: .audio_loopVideo, progress: { (progress) in
+        let audioPath1 = Bundle.main.path(forResource: "record1", ofType: "aac")
+        composition.bgMusicVideo(audioPath: audioPath, videoPath: videoPath, durationType: .audio_loopVideo, audioVolume: 0.1, musicPath: audioPath1, musicVolume: 1, progress: { (progress) in
             print("合成进度",progress)
         }, success: {[weak self] (path) in
             guard let `self` = self else {return}
@@ -63,6 +64,7 @@ class ViewController: UIViewController {
         }) { (errMessage) in
             print("合成失败",errMessage ?? "")
         }
+
     }
     
     @IBAction func audiosAction(_ sender: UIButton) {

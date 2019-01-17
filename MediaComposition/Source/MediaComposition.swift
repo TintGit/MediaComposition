@@ -15,6 +15,7 @@ public class MediaComposition: NSObject {
     public var naturalSize: CGSize = CGSize(width: 720, height: 1280)
     /// 每张图片展示的时间
     public var picTime: Int = 3
+    /// 帧率
     public var frameNumber: Int = 25
     /// 视频背景 本地地址 默认black.mp4
     public var videoResource: String?
@@ -41,7 +42,7 @@ extension MediaComposition {
     ///   - progress: 进度回调
     ///   - success: 成功回调 合成视频地址
     ///   - failure: 失败回调
-    public func videoAnimation(with images:[UIImage?], progress: ProgressBlock?, success: SuccessBlock?, failure: FailureBlock?){
+    public func imagesVideoAnimation(with images:[UIImage?], progress: ProgressBlock?, success: SuccessBlock?, failure: FailureBlock?){
         guard let videoPath = videoResource == nil ? Bundle.main.path(forResource: "black", ofType: "mp4") : videoResource else {
             failure?("资源出错")
             return
@@ -87,7 +88,7 @@ extension MediaComposition {
     }
     
     /// 图片合成视频 没效果
-    public func video(with images:[UIImage?], progress: ProgressBlock?, success: SuccessBlock?, failure: FailureBlock?){
+    public func imagesVideo(with images:[UIImage?], progress: ProgressBlock?, success: SuccessBlock?, failure: FailureBlock?){
         //先将图片转换成CVPixelBufferRef
         let imgs = images.compactMap { (image) -> CVPixelBuffer? in
             let buffer = image?.mc_pixelBufferRef(size: self.naturalSize)
@@ -149,13 +150,14 @@ extension MediaComposition {
     }
 }
 extension MediaComposition {
-    internal func setupAssetExport(_ mutableComposition: AVMutableComposition, videoCom: AVMutableVideoComposition?){
+    internal func setupAssetExport(_ mutableComposition: AVMutableComposition, videoCom: AVMutableVideoComposition?, audioMix: AVMutableAudioMix? = nil){
         let path = setupPath()
         self.assetExport = AVAssetExportSession(asset: mutableComposition, presetName: AVAssetExportPresetHighestQuality)
         assetExport?.outputFileType = AVFileType.mp4
         assetExport?.outputURL = URL(fileURLWithPath: path)
         assetExport?.shouldOptimizeForNetworkUse = true
         assetExport?.videoComposition = videoCom
+        assetExport?.audioMix = audioMix
         setupTimer()
         let start = CFAbsoluteTimeGetCurrent()
         assetExport?.exportAsynchronously(completionHandler: {[weak self] in

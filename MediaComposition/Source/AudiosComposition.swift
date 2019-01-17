@@ -9,6 +9,14 @@
 import UIKit
 import AVFoundation
 extension MediaComposition {
+    
+    /// 多段音频合成
+    ///
+    /// - Parameters:
+    ///   - paths: 音频地址数组
+    ///   - progress: 进度
+    ///   - success: 成功
+    ///   - failure: 失败
     public func audios(paths: [String?], progress: ProgressBlock?, success: SuccessBlock?, failure: FailureBlock?){
         self.outputPath = NSTemporaryDirectory() + "audiosComposition.mp4"
         self.progress = progress
