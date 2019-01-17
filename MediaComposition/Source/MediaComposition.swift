@@ -21,13 +21,13 @@ public class MediaComposition: NSObject {
     public typealias SuccessBlock = (String)->()
     public typealias ProgressBlock = (Float)->()
     public typealias FailureBlock = (String?)->()
-    private var timer: Timer?
-    private var assetExport: AVAssetExportSession?
+    internal var timer: Timer?
+    internal var assetExport: AVAssetExportSession?
     /// 视频时长 /s
-    private var duration: Int = 0
-    private var progress: ProgressBlock?
-    private var success: SuccessBlock?
-    private var failure: FailureBlock?
+    internal var duration: Int = 0
+    internal var progress: ProgressBlock?
+    internal var success: SuccessBlock?
+    internal var failure: FailureBlock?
     deinit {
         timerDeinit()
     }
@@ -88,7 +88,6 @@ extension MediaComposition {
     
     /// 图片合成视频 没效果
     public func video(with images:[UIImage?], progress: ProgressBlock?, success: SuccessBlock?, failure: FailureBlock?){
-        
         //先将图片转换成CVPixelBufferRef
         let imgs = images.compactMap { (image) -> CVPixelBuffer? in
             let buffer = image?.mc_pixelBufferRef(size: self.naturalSize)
@@ -150,7 +149,7 @@ extension MediaComposition {
     }
 }
 extension MediaComposition {
-    private func setupAssetExport(_ mutableComposition: AVMutableComposition, videoCom: AVMutableVideoComposition){
+    internal func setupAssetExport(_ mutableComposition: AVMutableComposition, videoCom: AVMutableVideoComposition?){
         let path = setupPath()
         self.assetExport = AVAssetExportSession(asset: mutableComposition, presetName: AVAssetExportPresetHighestQuality)
         assetExport?.outputFileType = AVFileType.mp4
@@ -166,7 +165,7 @@ extension MediaComposition {
             case .completed:
                 self.success?(path)
                 let end = CFAbsoluteTimeGetCurrent()
-                print("切换特效图片合成耗时", end - start)
+                print("合成耗时", end - start)
                 break
             default:
                 print(export.status)

@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+import AVFoundation
 public extension UIImage {
     public func mc_pixelBufferRef(size: CGSize) -> CVPixelBuffer?{
         let width = Int(size.width)
@@ -35,5 +35,12 @@ public extension UIImage {
         
         CVPixelBufferUnlockBaseAddress(pixelBuffer, CVPixelBufferLockFlags(rawValue: 0))
         return pixelBuffer
+    }
+}
+extension AVURLAsset {
+    public func mc_mediaDuration() -> Int{
+        let time = self.duration
+        let seconds = Int(Float(time.value) / Float(time.timescale))
+        return seconds
     }
 }

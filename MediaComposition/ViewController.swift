@@ -25,8 +25,7 @@ class ViewController: UIViewController {
         let image1 = UIImage(named: "cheese@2x")
         let image2 = UIImage(named: "kxk@2x")
         let image3 = UIImage(named: "guide@2x")
-        let image4 = UIImage(named: "kxkX@2x")
-        self.images = [image1, image2, image4,image3, image2, image3, image1]
+        self.images = [image1, image2, image3]
     }
     
     @IBAction func compositionAnimationAction(_ sender: UIButton) {
@@ -43,6 +42,22 @@ class ViewController: UIViewController {
     @IBAction func compositionAction(_ sender: UIButton) {
         composition.video(with: images, progress: { (progress) in
             //print("合成进度",progress)
+        }, success: {[weak self] (path) in
+            guard let `self` = self else {return}
+            print("合成后地址",path)
+            self.path = path
+            
+        }) { (errMessage) in
+            print("合成失败",errMessage ?? "")
+        }
+    }
+    @IBAction func avAction(_ sender: UIButton) {
+        let audioPath = Bundle.main.path(forResource: "直到世界尽头", ofType: "mp3")
+        let videoPath = NSTemporaryDirectory() + "imagesComposition.mp4"
+        //let videoPath = Bundle.main.path(forResource: "black", ofType: "mp4")
+        //let type = MediaDurationType.custom(duration: 15)
+        composition.video(audioPath: audioPath, videoPath: videoPath, durationType: .audio_loopVideo, progress: { (progress) in
+            print("合成进度",progress)
         }, success: {[weak self] (path) in
             guard let `self` = self else {return}
             print("合成后地址",path)
