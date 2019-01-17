@@ -53,6 +53,7 @@ extension MediaComposition {
         self.progress = progress
         self.failure = failure
         self.success = success
+        self.outputPath = NSTemporaryDirectory() + "imagesComposition.mp4"
         let videoAsset = AVURLAsset(url: URL(fileURLWithPath: videoPath))
         let mutableComposition = AVMutableComposition()
         guard let videoCompositionTrack = mutableComposition.addMutableTrack(withMediaType: .video, preferredTrackID: kCMPersistentTrackID_Invalid), let videoAssetTrack = videoAsset.tracks(withMediaType: .video).first else {
@@ -95,6 +96,7 @@ extension MediaComposition {
             return buffer
         }
         do {
+            self.outputPath = NSTemporaryDirectory() + "imagesComposition.mp4"
             let path = setupPath()
             let size = self.naturalSize
             let outputURL = URL(fileURLWithPath: path)
