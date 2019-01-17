@@ -10,10 +10,7 @@ import UIKit
 import AVKit
 class ViewController: UIViewController {
 
-    lazy var com: MediaComposition = {
-        let temp = MediaComposition()
-        return temp
-    }()
+    
     var path: String?
     var images: [UIImage?] = []
     lazy var composition: MediaComposition = {
@@ -57,6 +54,22 @@ class ViewController: UIViewController {
         //let videoPath = Bundle.main.path(forResource: "black", ofType: "mp4")
         //let type = MediaDurationType.custom(duration: 15)
         composition.video(audioPath: audioPath, videoPath: videoPath, durationType: .audio_loopVideo, progress: { (progress) in
+            print("合成进度",progress)
+        }, success: {[weak self] (path) in
+            guard let `self` = self else {return}
+            print("合成后地址",path)
+            self.path = path
+            
+        }) { (errMessage) in
+            print("合成失败",errMessage ?? "")
+        }
+    }
+    
+    @IBAction func audiosAction(_ sender: UIButton) {
+        let audioPath1 = Bundle.main.path(forResource: "record1", ofType: "aac")
+        let audioPath2 = Bundle.main.path(forResource: "record2", ofType: "aac")
+        let audioPath3 = Bundle.main.path(forResource: "record3", ofType: "aac")
+        composition.audios(paths: [audioPath1, audioPath2, audioPath3], progress: { (progress) in
             print("合成进度",progress)
         }, success: {[weak self] (path) in
             guard let `self` = self else {return}

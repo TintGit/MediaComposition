@@ -40,6 +40,17 @@
                                     <action selector="compositionAnimationAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="duX-Jh-UWj"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6ZX-7Q-ge9">
+                                <rect key="frame" x="90" y="282" width="194" height="56"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" title="音视频合成">
+                                    <color key="titleColor" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="avAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Y4C-I1-cKt"/>
+                                </connections>
+                            </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="K6A-iH-yE2">
                                 <rect key="frame" x="90" y="573" width="194" height="55"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -51,15 +62,15 @@
                                     <action selector="playAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="dzn-vY-53X"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6ZX-7Q-ge9">
-                                <rect key="frame" x="90" y="282" width="194" height="56"/>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="l3e-KN-NGh">
+                                <rect key="frame" x="90" y="360" width="194" height="56"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <state key="normal" title="音视频合成">
+                                <state key="normal" title="多段音频合成">
                                     <color key="titleColor" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
-                                    <action selector="avAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Y4C-I1-cKt"/>
+                                    <action selector="audiosAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Jvl-T9-4sL"/>
                                 </connections>
                             </button>
                         </subviews>

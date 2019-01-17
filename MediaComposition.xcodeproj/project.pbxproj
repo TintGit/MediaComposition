@@ -24,6 +24,9 @@
 		317D1C0F21F0178800F6AF3D /* MediaAVComposition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317D1C0E21F0178800F6AF3D /* MediaAVComposition.swift */; };
 		317D1C1121F01C4600F6AF3D /* 直到世界尽头.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 317D1C1021F01C4600F6AF3D /* 直到世界尽头.mp3 */; };
 		317D1C1321F0516600F6AF3D /* AudiosComposition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317D1C1221F0516600F6AF3D /* AudiosComposition.swift */; };
+		317D1C1721F056DF00F6AF3D /* record2.aac in Resources */ = {isa = PBXBuildFile; fileRef = 317D1C1421F056DF00F6AF3D /* record2.aac */; };
+		317D1C1821F056DF00F6AF3D /* record3.aac in Resources */ = {isa = PBXBuildFile; fileRef = 317D1C1521F056DF00F6AF3D /* record3.aac */; };
+		317D1C1921F056DF00F6AF3D /* record1.aac in Resources */ = {isa = PBXBuildFile; fileRef = 317D1C1621F056DF00F6AF3D /* record1.aac */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,6 +70,9 @@
 		317D1C0E21F0178800F6AF3D /* MediaAVComposition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaAVComposition.swift; sourceTree = "<group>"; };
 		317D1C1021F01C4600F6AF3D /* 直到世界尽头.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "直到世界尽头.mp3"; sourceTree = "<group>"; };
 		317D1C1221F0516600F6AF3D /* AudiosComposition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudiosComposition.swift; sourceTree = "<group>"; };
+		317D1C1421F056DF00F6AF3D /* record2.aac */ = {isa = PBXFileReference; lastKnownFileType = file; path = record2.aac; sourceTree = "<group>"; };
+		317D1C1521F056DF00F6AF3D /* record3.aac */ = {isa = PBXFileReference; lastKnownFileType = file; path = record3.aac; sourceTree = "<group>"; };
+		317D1C1621F056DF00F6AF3D /* record1.aac */ = {isa = PBXFileReference; lastKnownFileType = file; path = record1.aac; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -154,6 +160,9 @@
 		317D1BF421EECE6C00F6AF3D /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				317D1C1621F056DF00F6AF3D /* record1.aac */,
+				317D1C1421F056DF00F6AF3D /* record2.aac */,
+				317D1C1521F056DF00F6AF3D /* record3.aac */,
 				317D1C1021F01C4600F6AF3D /* 直到世界尽头.mp3 */,
 				317D1BF721EED08200F6AF3D /* black.mp4 */,
 			);
@@ -279,11 +288,14 @@
 				317D1BD021EECE2300F6AF3D /* LaunchScreen.storyboard in Resources */,
 				317D1BF821EED08200F6AF3D /* black.mp4 in Resources */,
 				317D1BFC21EEE15400F6AF3D /* cheese@2x.png in Resources */,
+				317D1C1821F056DF00F6AF3D /* record3.aac in Resources */,
 				317D1C0421EF0D4500F6AF3D /* kxkX@2x.png in Resources */,
+				317D1C1921F056DF00F6AF3D /* record1.aac in Resources */,
 				317D1C0021EF03BC00F6AF3D /* kxk@2x.png in Resources */,
 				317D1C1121F01C4600F6AF3D /* 直到世界尽头.mp3 in Resources */,
 				317D1BCD21EECE2300F6AF3D /* Assets.xcassets in Resources */,
 				317D1BCB21EECE2200F6AF3D /* Main.storyboard in Resources */,
+				317D1C1721F056DF00F6AF3D /* record2.aac in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
