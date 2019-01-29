@@ -54,7 +54,9 @@ class ViewController: UIViewController {
         let videoPath = Bundle.main.path(forResource: "麦迪时刻", ofType: "MP4")
         //let type = MediaDurationType.custom(duration: 15)
         let audioPath1 = Bundle.main.path(forResource: "record1", ofType: "aac")
-        composition.bgMusicVideo(audioPath: audioPath, videoPath: videoPath, durationType: .audio_loopVideo, audioVolume: 0.1, musicPath: audioPath1, musicVolume: 1, progress: { (progress) in
+        composition.isMute = false
+        
+        composition.bgMusicVideo(audioPath: audioPath, videoPath: videoPath, durationType: .audio_loopVideo, audioVolume: 0.4, musicPath: nil, musicVolume: 1, videoVolme: 1, progress: { (progress) in
             print("合成进度",progress)
         }, success: {[weak self] (path) in
             guard let `self` = self else {return}

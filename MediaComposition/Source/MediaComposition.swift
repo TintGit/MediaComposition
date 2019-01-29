@@ -19,6 +19,8 @@ public class MediaComposition: NSObject {
     public var frameNumber: Int = 25
     /// 视频背景 本地地址 默认black.mp4
     public var videoResource: String?
+    /// 视频原音静音
+    public var isMute: Bool = true
     public typealias SuccessBlock = (String)->()
     public typealias ProgressBlock = (Float)->()
     public typealias FailureBlock = (String?)->()

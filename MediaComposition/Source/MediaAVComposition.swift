@@ -52,10 +52,11 @@ extension MediaComposition {
     ///   - audioVolume: 音频音量
     ///   - musicPath: 背景音乐
     ///   - musicVolume: 背景音乐音量
+    ///   - videoVolme: 背景视频的音量 默认 0 isMute == false 设置才会生效
     ///   - progress: 进度
     ///   - success: 成功
     ///   - failure: 失败
-    public func bgMusicVideo(audioPath: String?, videoPath: String?, durationType: MediaDurationType, audioVolume: Float, musicPath: String?, musicVolume: Float?, progress: ProgressBlock?, success: SuccessBlock?, failure: FailureBlock?){
+    public func bgMusicVideo(audioPath: String?, videoPath: String?, durationType: MediaDurationType, audioVolume: Float, musicPath: String?, musicVolume: Float?, videoVolme: Float = 0, progress: ProgressBlock?, success: SuccessBlock?, failure: FailureBlock?){
         guard let audioPath = audioPath, let videoPath = videoPath else {
             failure?(nil)
             return
@@ -70,10 +71,11 @@ extension MediaComposition {
         let videoAsset = AVURLAsset(url: videoURL)
         guard let videoAssetTrack = videoAsset.tracks(withMediaType: .video).first else {return}
         guard let audioAssetTrack = audioAsset.tracks(withMediaType: .audio).first else {return}
-        
+        let videoAudioAssetTrack = videoAsset.tracks(withMediaType: .audio).first
         let composition = AVMutableComposition()
         let videoCompositionTrack = composition.addMutableTrack(withMediaType: .video, preferredTrackID: kCMPersistentTrackID_Invalid)
         let audioCompositionTrack = composition.addMutableTrack(withMediaType: .audio, preferredTrackID: kCMPersistentTrackID_Invalid)
+        let videoAudioCompositionTrack = composition.addMutableTrack(withMediaType: .audio, preferredTrackID: kCMPersistentTrackID_Invalid)
         var endTime = CMTimeRange()
         var loopAudio = false
         var loopVideo = false
@@ -102,7 +104,13 @@ extension MediaComposition {
             }
             break
         }
+        
         if !loopVideo {
+            if !isMute { //保留视频原生
+                if let _ = videoAudioAssetTrack {
+                    try? videoAudioCompositionTrack?.insertTimeRange(endTime, of: videoAudioAssetTrack!, at: .zero)
+                }
+            }
             try? videoCompositionTrack?.insertTimeRange(endTime, of: videoAssetTrack, at: .zero)
         }else {//循环视频
             let loopCount = audioDurtion / videoDurtion
@@ -111,11 +119,21 @@ extension MediaComposition {
             var duration = CMTime.zero
             for _ in 0..<loopCount {
                 try? videoCompositionTrack?.insertTimeRange(CMTimeRange(start: .zero, duration: videoAsset.duration), of: videoAssetTrack, at: duration)
+                if !isMute { //保留视频原生
+                    if let _ = videoAudioAssetTrack {
+                        try? videoAudioCompositionTrack?.insertTimeRange(CMTimeRange(start: .zero, duration: videoAsset.duration), of: videoAudioAssetTrack!, at: duration)
+                    }
+                }
                 duration = CMTimeAdd(duration, videoAsset.duration)
             }
             if residue > 0 {
                 let dura = CMTime(value: CMTimeValue(residue), timescale: 1)
                 try? videoCompositionTrack?.insertTimeRange(CMTimeRange(start: .zero, duration: dura), of: videoAssetTrack, at: duration)
+                if !isMute { //保留视频原生
+                    if let _ = videoAudioAssetTrack {
+                        try? videoAudioCompositionTrack?.insertTimeRange(CMTimeRange(start: .zero, duration: dura), of: videoAudioAssetTrack!, at: duration)
+                    }
+                }
             }
         }
         if !loopAudio {
@@ -134,6 +152,7 @@ extension MediaComposition {
                 try? audioCompositionTrack?.insertTimeRange(CMTimeRange(start: .zero, duration: dura), of: audioAssetTrack, at: duration)
             }
         }
+        
         //音量设置
         let audioMix: AVMutableAudioMix = AVMutableAudioMix()
         var audioMixParam: [AVMutableAudioMixInputParameters] = []
@@ -141,7 +160,16 @@ extension MediaComposition {
         audioParam.trackID = audioCompositionTrack?.trackID ?? kCMPersistentTrackID_Invalid
         audioParam.setVolume(audioVolume, at: .zero)
         audioMixParam.append(audioParam)
-        audioMix.inputParameters = audioMixParam
+        
+        if !isMute { //保留视频原生
+            if let _ = videoAudioAssetTrack {
+                let videoAudioParam: AVMutableAudioMixInputParameters = AVMutableAudioMixInputParameters(track: videoAudioAssetTrack)
+                videoAudioParam.trackID = videoAudioCompositionTrack?.trackID ?? kCMPersistentTrackID_Invalid
+                videoAudioParam.setVolume(videoVolme, at: .zero)
+                audioMixParam.append(videoAudioParam)
+            }
+        }
+        
         //合成配乐
         if let musicP = musicPath{
             let musicURL = URL(fileURLWithPath: musicP)
@@ -177,6 +205,7 @@ extension MediaComposition {
             musicParam.setVolume(musicVolume ?? 1, at: CMTime.zero)
             audioMixParam.append(musicParam)
         }
+        audioMix.inputParameters = audioMixParam
         setupAssetExport(composition, videoCom: nil, audioMix: audioMix)
     }
 }
