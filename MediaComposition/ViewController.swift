@@ -26,6 +26,7 @@ class ViewController: UIViewController {
     }
     
     @IBAction func compositionAnimationAction(_ sender: UIButton) {
+        composition.picTime = 3
         composition.imagesVideoAnimation(with: images, progress: { (progress) in
             print("合成进度",progress)
         }, success: {[weak self] (path) in

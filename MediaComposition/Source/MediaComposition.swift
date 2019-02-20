@@ -14,7 +14,7 @@ public class MediaComposition: NSObject {
     /// 视频分辨率
     public var naturalSize: CGSize = CGSize(width: 720, height: 1280)
     /// 每张图片展示的时间
-    public var picTime: Int = 3
+    public var picTime: Float = 3
     /// 帧率
     public var frameNumber: Int = 25
     /// 视频背景 本地地址 默认black.mp4
@@ -27,7 +27,7 @@ public class MediaComposition: NSObject {
     internal var timer: Timer?
     internal var assetExport: AVAssetExportSession?
     /// 视频时长 /s
-    internal var duration: Int = 0
+    internal var duration: Float = 0
     internal var progress: ProgressBlock?
     internal var success: SuccessBlock?
     internal var failure: FailureBlock?
@@ -50,8 +50,8 @@ extension MediaComposition {
             return
         }
         //视频的时长 - (图片个数 * 每张图片的展示时间) 目前默认背景视频3分钟 仅支持不超过3分钟
-        let tempDuration = images.count * picTime
-        self.duration = tempDuration > 180 ? 180 : tempDuration
+        let tempDuration = Float(images.count) * picTime + Float(0.1 * Float(images.count))
+        self.duration = tempDuration > 180.0 ? 180.0 : tempDuration
         self.progress = progress
         self.failure = failure
         self.success = success
@@ -118,7 +118,7 @@ extension MediaComposition {
             }
             var index = -1
             let frame: Int = self.frameNumber
-            let seconds: Int = self.picTime
+            let seconds: Float = self.picTime
             let start = CFAbsoluteTimeGetCurrent()
             videoWriterInput.requestMediaDataWhenReady(on: DispatchQueue.global()) {
                 while videoWriterInput.isReadyForMoreMediaData{
@@ -135,11 +135,11 @@ extension MediaComposition {
                     }
                     let idx = index / frame
                     let buffer = imgs[idx]
-                    let time = CMTime(value: CMTimeValue(index), timescale: CMTimeScale(frame / seconds))
+                    let time = CMTime(value: CMTimeValue(index), timescale: CMTimeScale(Float(frame) / seconds))
                     if adaptor.append(buffer , withPresentationTime: time) {
                         let sec = CMTimeGetSeconds(time)
-                        if sec <= Float64(imgs.count * seconds) {
-                            let p = Float(sec / Float64(images.count * seconds))
+                        if sec <= Float64(imgs.count) * Float64(seconds) {
+                            let p = Float(sec / Float64(images.count) * Float64(seconds))
                             progress?(p)
                         }
                     }else {
@@ -213,10 +213,10 @@ extension MediaComposition {
             let animation = CABasicAnimation()
             animation.timingFunction = CAMediaTimingFunction.init(name: .easeInEaseOut)
             animation.isRemovedOnCompletion = false
-            animation.beginTime = 0.3 + Double(picTime * index)
+            animation.beginTime = 0.1 + Double(picTime * Float(index))
             animation.fromValue = NSValue.init(cgPoint: CGPoint.init(x: naturalSize.width * CGFloat(index), y: 0))
             animation.toValue = NSValue.init(cgPoint: CGPoint.init(x: 0, y: 0))
-            animation.duration = 0.3
+            animation.duration = 0.1
             animation.fillMode = .both
             layer.add(animation, forKey: "position")
         }
