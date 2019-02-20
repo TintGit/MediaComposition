@@ -249,3 +249,34 @@ extension MediaComposition {
         return path
     }
 }
+extension MediaComposition {
+    public func imagePicker(url: URL, progress: ProgressBlock?, success: SuccessBlock?, failure: FailureBlock?){
+        self.progress = progress
+        let urlAsset = AVURLAsset(url: url)
+        
+        self.assetExport = AVAssetExportSession(asset: urlAsset, presetName: AVAssetExportPresetHighestQuality)
+        let outputPath = NSTemporaryDirectory() + "imagePickerComposition.mp4"
+        if FileManager.default.fileExists(atPath: outputPath) {
+            try? FileManager.default.removeItem(atPath: outputPath)
+        }
+        self.assetExport?.outputFileType = AVFileType.mp4
+        self.assetExport?.outputURL = URL(fileURLWithPath: outputPath)
+        setupTimer()
+        let start = CFAbsoluteTimeGetCurrent()
+        assetExport?.exportAsynchronously(completionHandler: {[weak self] in
+            guard let `self` = self, let export = self.assetExport else {return}
+            self.timerDeinit()
+            switch export.status {
+            case .completed:
+                success?(outputPath)
+                let end = CFAbsoluteTimeGetCurrent()
+                print("合成耗时", end - start)
+                break
+            default:
+                print(export.status)
+                failure?("合成失败")
+                break
+            }
+        })
+    }
+}
