@@ -31,7 +31,7 @@ Pod::Spec.new do |s|
   # s.public_header_files = "Classes/**/*.h"
 
   # s.resource  = "icon.png"
-  s.resources = "MediaComposition/Resource/black.mp4", "MediaComposition/Resource/canvas.png"
+  s.resources = "MediaComposition/Resource/black.mp4", "MediaComposition/Resource/*.png"
   s.static_framework = true
   
 
