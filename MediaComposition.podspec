@@ -11,7 +11,7 @@ Pod::Spec.new do |s|
 
 
   s.name         = "MediaComposition"
-  s.version      = "1.0.0"
+  s.version      = "1.0.1"
   s.summary      = "图片合成视频特效 音视频合成"
   s.description  = <<-DESC 
                     MediaComposition 音视频合成
@@ -31,7 +31,7 @@ Pod::Spec.new do |s|
   # s.public_header_files = "Classes/**/*.h"
 
   # s.resource  = "icon.png"
-  s.resources = "MediaComposition/Resource/black.mp4"
+  s.resources = "MediaComposition/Resource/black.mp4", "MediaComposition/Resource/canvas.png"
   s.static_framework = true
   
 

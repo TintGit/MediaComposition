@@ -94,7 +94,9 @@ extension MediaComposition {
     public func imagesVideo(with images:[UIImage?], progress: ProgressBlock?, success: SuccessBlock?, failure: FailureBlock?){
         //先将图片转换成CVPixelBufferRef
         let imgs = images.compactMap { (image) -> CVPixelBuffer? in
-            let buffer = image?.mc_pixelBufferRef(size: self.naturalSize)
+            guard let image = image else {return nil}
+            let newImage = self.fitImage(image)
+            let buffer = newImage.mc_pixelBufferRef(size: self.naturalSize)
             return buffer
         }
         do {
@@ -248,6 +250,25 @@ extension MediaComposition {
         }
         return path
     }
+    private func fitImage(_ image: UIImage) -> UIImage{
+        guard let bg = UIImage(named: "canvas") else {return image}
+        UIGraphicsBeginImageContextWithOptions(bg.size, false, UIScreen.main.scale)
+        bg.draw(in: CGRect(x: 0, y: 0, width: bg.size.width, height: bg.size.height))
+        let imageScale = image.size.width / image.size.height
+        let bgScale = CGFloat(9) / CGFloat(16)
+        if imageScale > bgScale {//上下黑边
+            let h = bg.size.width * image.size.height / image.size.width
+            image.draw(in: CGRect(x: 0, y: (bg.size.height - h) / 2, width: bg.size.width, height: h))
+        }else if imageScale < bgScale{//左右黑边
+            image.draw(in: CGRect(x: 0, y: 0, width: bg.size.width, height: bg.size.height))
+        }else {
+            image.draw(in: CGRect(x: 0, y: 0, width: bg.size.width, height: bg.size.height))
+        }
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return newImage ?? image
+    }
+    
 }
 extension MediaComposition {
     public func imagePicker(url: URL, progress: ProgressBlock?, success: SuccessBlock?, failure: FailureBlock?){

@@ -28,6 +28,7 @@
 		317D1C1821F056DF00F6AF3D /* record3.aac in Resources */ = {isa = PBXBuildFile; fileRef = 317D1C1521F056DF00F6AF3D /* record3.aac */; };
 		317D1C1921F056DF00F6AF3D /* record1.aac in Resources */ = {isa = PBXBuildFile; fileRef = 317D1C1621F056DF00F6AF3D /* record1.aac */; };
 		317D1C1B21F0595800F6AF3D /* 麦迪时刻.MP4 in Resources */ = {isa = PBXBuildFile; fileRef = 317D1C1A21F0595700F6AF3D /* 麦迪时刻.MP4 */; };
+		31BBF5F4221E7F15006317B4 /* canvas.png in Resources */ = {isa = PBXBuildFile; fileRef = 31BBF5F3221E7F15006317B4 /* canvas.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -75,6 +76,7 @@
 		317D1C1521F056DF00F6AF3D /* record3.aac */ = {isa = PBXFileReference; lastKnownFileType = file; path = record3.aac; sourceTree = "<group>"; };
 		317D1C1621F056DF00F6AF3D /* record1.aac */ = {isa = PBXFileReference; lastKnownFileType = file; path = record1.aac; sourceTree = "<group>"; };
 		317D1C1A21F0595700F6AF3D /* 麦迪时刻.MP4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "麦迪时刻.MP4"; sourceTree = "<group>"; };
+		31BBF5F3221E7F15006317B4 /* canvas.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = canvas.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -162,6 +164,7 @@
 		317D1BF421EECE6C00F6AF3D /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				31BBF5F3221E7F15006317B4 /* canvas.png */,
 				317D1C1A21F0595700F6AF3D /* 麦迪时刻.MP4 */,
 				317D1C1621F056DF00F6AF3D /* record1.aac */,
 				317D1C1421F056DF00F6AF3D /* record2.aac */,
@@ -294,6 +297,7 @@
 				317D1C1821F056DF00F6AF3D /* record3.aac in Resources */,
 				317D1C1B21F0595800F6AF3D /* 麦迪时刻.MP4 in Resources */,
 				317D1C0421EF0D4500F6AF3D /* kxkX@2x.png in Resources */,
+				31BBF5F4221E7F15006317B4 /* canvas.png in Resources */,
 				317D1C1921F056DF00F6AF3D /* record1.aac in Resources */,
 				317D1C0021EF03BC00F6AF3D /* kxk@2x.png in Resources */,
 				317D1C1121F01C4600F6AF3D /* 直到世界尽头.mp3 in Resources */,
