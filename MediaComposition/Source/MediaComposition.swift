@@ -120,7 +120,8 @@ extension MediaComposition {
             }
             var index = -1
             let frame: Int = self.frameNumber
-            let seconds: Float = self.picTime
+            //总时间
+            let seconds: Float64 = Float64(self.picTime) * Float64(imgs.count)
             let start = CFAbsoluteTimeGetCurrent()
             videoWriterInput.requestMediaDataWhenReady(on: DispatchQueue.global()) {
                 while videoWriterInput.isReadyForMoreMediaData{
@@ -137,11 +138,12 @@ extension MediaComposition {
                     }
                     let idx = index / frame
                     let buffer = imgs[idx]
-                    let time = CMTime(value: CMTimeValue(index), timescale: CMTimeScale(Float(frame) / seconds))
+                    let time = CMTime(value: CMTimeValue(index), timescale: CMTimeScale(frame))
                     if adaptor.append(buffer , withPresentationTime: time) {
-                        let sec = CMTimeGetSeconds(time)
-                        if sec <= Float64(imgs.count) * Float64(seconds) {
-                            let p = Float(sec / Float64(images.count) * Float64(seconds))
+                        let sec = CMTimeGetSeconds(time)//当前时间
+                        if sec <= seconds {
+                            let p = Float(sec / seconds)
+                            //print(sec, seconds, p)
                             progress?(p)
                         }
                     }else {
