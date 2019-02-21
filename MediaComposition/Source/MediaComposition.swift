@@ -140,10 +140,10 @@ extension MediaComposition {
                     let buffer = imgs[idx]
                     let time = CMTime(value: CMTimeValue(index), timescale: CMTimeScale(frame))
                     if adaptor.append(buffer , withPresentationTime: time) {
-                        let sec = CMTimeGetSeconds(time)//当前时间
-                        if sec <= seconds {
-                            let p = Float(sec / seconds)
-                            //print(sec, seconds, p)
+                        
+                        if index <= images.count * frame {
+                            let p = Float(index) / Float(imgs.count * frame)
+                           // print(index, imgs.count * frame, p)
                             progress?(p)
                         }
                     }else {
